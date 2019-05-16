@@ -49,6 +49,11 @@ urlinfo_t *parse_url(char *url)
   // IMPLEMENT ME! //
   ///////////////////
 
+  // * Store hostname, path, and port in a urlinfo_t struct and return the struct.
+  urlinfo->hostname = hostname;
+  urlinfo->path = path;
+  urlinfo->port = port;
+
   return urlinfo;
 }
 
