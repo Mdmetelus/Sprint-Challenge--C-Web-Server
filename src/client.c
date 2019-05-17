@@ -48,7 +48,38 @@ urlinfo_t *parse_url(char *url)
   ///////////////////
   // IMPLEMENT ME! //
   ///////////////////
-   
+    if (strstr(hostname, "https://"))
+  {
+    printf("We found an HTTPS\n");
+    hostname += 8;
+    printf("%s\n", hostname);
+  }
+  else if (strstr(hostname, "http://"))
+  {
+    printf("We found an HTTP\n");
+    hostname += 7;
+    printf("%s\n", hostname);
+  }
+  else
+  {
+    printf("We found a REGULAR URL\n");
+    hostname = strdup(url);
+  }
+
+  char *backslash = strchr(hostname, '/');
+  path = backslash + 1;
+  *backslash = '\0';
+
+  char *colon = strchr(hostname, ':');
+  if (colon)
+  {
+    port = colon + 1;
+    *colon = '\0';
+  }
+  else
+  {
+    port = "80";
+  }
 
   // * Store hostname, path, and port in a urlinfo_t struct and return the struct.
   urlinfo->hostname = hostname;
