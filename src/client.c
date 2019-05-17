@@ -120,7 +120,7 @@ int send_request(int fd, char *hostname, char *port, char *path)
     perror("send");
   }
 
-  return 0;
+  return rv;
 }
 
 int main(int argc, char *argv[])
@@ -146,14 +146,19 @@ int main(int argc, char *argv[])
   ///////////////////
   urlinfo_t *urlinfo = parse_url(argv[1]);
   sockfd = get_socket(urlinfo->hostname, urlinfo->port);
+  if (socket < 0)
+  {
+    fprintf(stderr, "webserver: error getting socket\n");
+    exit(1);
+  }
   send_request(sockfd, urlinfo->hostname, urlinfo->port, urlinfo->path);
 
   while ((numbytes = recv(sockfd, buf, BUFSIZE - 1, 0)) > 0)
   {
-    printf("%s\n", buf);
+    fprintf(stdout, "%s\n", buf);
   }
 
-
+  free(urlinfo->hostname);
   free(urlinfo);
   close(sockfd);
 
